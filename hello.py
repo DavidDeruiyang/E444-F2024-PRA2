@@ -6,7 +6,7 @@ flask --app hello.py run
 '''
 
 from datetime import datetime, timezone
-from flask import Flask, render_template
+from flask import Flask, render_template, session, redirect, url_for, flash
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 
@@ -26,12 +26,14 @@ app.config['SECRET_KEY'] = 'hard to guess string'
 
 @app.route('/',methods=['GET','POST'])
 def index():
-    name = None
     form = NameForm()
     if form.validate_on_submit():
-        name = form.name.data
-        form.name.data = ''
-    return render_template('index.html', current_time=datetime.now(), form=form, name=name)
+        old_name = session.get('name')
+        if old_name is not None and old_name != form.name.data:
+            flash('Looks like you have changed your name!')
+        session['name'] = form.name.data
+        return redirect(url_for('index'))
+    return render_template('index.html', current_time=datetime.now(timezone.utc), form=form, name=session.get('name'))
 
 @app.route('/user/<name>')
 def user(name):
