@@ -4,7 +4,16 @@
 
 {% block page_content %}
 <div class="page-header">
-    <h1>Hello, {% if name %}{{ name }}{% else %}Stranger{% endif %}!</h1>
+    <h1 class="fw-bold">Hello, {% if name %}{{ name }}{% else %}Stranger{% endif %}!</h1>
+
+    {% if email %}
+        {% if "utoronto" in email.lower() %}
+            <h1>Your UofT Email is {{ email }}</h1>
+        {% else %}
+            <h1>Please use your UofT email.</h1>
+        {% endif %}
+    {% endif %}
+
 </div>
 {{ wtf.quick_form(form) }}
 <hr class="my-4">
@@ -12,4 +21,10 @@
     <p>The local date and time is {{ moment(current_time).format('LLLL') }}.</p>
     <p>That was {{ moment(current_time).fromNow(refresh=True) }}</p>
 </div>
+
+<!-- Clear Session Button with Spacing -->
+<div class="mt-4">
+    <a href="{{ url_for('clear') }}" class="btn btn-warning">Clear Name and Email</a>
+</div>
+<hr class="my-4">
 {% endblock %}
