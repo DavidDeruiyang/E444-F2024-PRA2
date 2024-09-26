@@ -11,3 +11,19 @@ For Readers of the First Edition of the Book
 --------------------------------------------
 
 The code examples for the first edition of the book were moved to a different repository: [https://github.com/miguelgrinberg/flasky-first-edition](https://github.com/miguelgrinberg/flasky-first-edition).
+
+
+
+Activity 1 
+run cmd: [$ flask --app hello.py run]
+
+Activity 2
+build and run container:
+[$ docker build -t flasky .]
+[$docker run -d -p 5000:5000 --name flasky_running flasky]
+[$docker ps -a]
+[$docker logs flasky_running]
+[$docker stop flasky_running]
+
+go into container:
+[$docker exec -it flasky_running /bin/bash]
